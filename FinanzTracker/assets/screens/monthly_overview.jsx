@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import NavBar from '../components/nav_bar';
 
 const MonthlyOverviewScreen = () => {
   return (
@@ -20,11 +21,7 @@ const MonthlyOverviewScreen = () => {
         <Text style={styles.label}>Differenz:</Text>
         <Text style={styles.difference}>+300€</Text>
       </View>
-      <View style={styles.navBar}>
-        <Text style={styles.navButton}>📊</Text>
-        <Text style={styles.navButton}>🏠</Text>
-        <Text style={styles.navButton}>🔄</Text>
-      </View>
+      <NavBar/>
     </View>
   );
 };
@@ -82,18 +79,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#333',
     fontWeight: 'bold',
-  },
-  navBar: {
-    position: 'absolute',
-    bottom: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    backgroundColor: '#ccc',
-    paddingVertical: 10,
-  },
-  navButton: {
-    fontSize: 24,
   },
 });
 
