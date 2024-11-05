@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
-import MonthlyOverviewScreen from './assets/screens/monthly_overview.jsx';
+import MonthlyOverviewScreen from '../assets/screens/monthly_overview.jsx';
+import React from 'react';
+//import "expo-router/entry";
 
 export default function App() {
   return (
