@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
-import MonthlyOverviewScreen from './assets/screens/monthly_overview.jsx';
-import ExpenseOverviewScreen from './assets/screens/pie_chart_screen.jsx';
-import YearlyRecapScreen from './assets/screens/year_recap_screen.jsx';
-import ExpenseEditScreen from './assets/screens/editing_overview_screen.jsx';
+import MonthlyOverviewScreen from '../assets/screens/monthly_overview.jsx';
+import ExpenseOverviewScreen from '../assets/screens/pie_chart_screen.jsx';
+import YearlyRecapScreen from '../assets/screens/year_recap_screen.jsx';
+import ExpenseEditScreen from '../assets/screens/editing_overview_screen.jsx';
+import React from 'react';
 
 export default function App() {
   return (
