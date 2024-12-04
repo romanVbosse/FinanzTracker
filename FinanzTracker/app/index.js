@@ -6,8 +6,10 @@ import YearlyRecapScreen from '../assets/screens/YearRecapScreen.jsx';
 import ExpenseEditScreen from '../assets/screens/EditingOverviewScreen.jsx';
 import React from 'react';
 import LoginScreen from '../assets/screens/LoginScreen.jsx';
+import { Link } from "expo-router"
 
 export default function App() {
+  
   return (
     <View style={styles.container}>
       <LoginScreen />

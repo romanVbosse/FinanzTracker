@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import NavBar from '../components/NavBar';
+import styles from './styles/styles';
 
 const MonthlyOverviewScreen = () => {
   return (
@@ -25,61 +26,5 @@ const MonthlyOverviewScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#232323',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    fontSize: 30,
-    color: '#fff',
-    marginBottom: 20,
-  },
-  box: {
-    width: '80%',
-    backgroundColor: '#ececec',
-    borderRadius: 10,
-    padding: 20,
-    alignItems: 'center',
-  },
-  barContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  barIncome: {
-    width: 50,
-    height: 100,
-    backgroundColor: 'green',
-    marginBottom: 10,
-  },
-  barExpense: {
-    width: 50,
-    height: 100,
-    backgroundColor: 'red',
-    marginBottom: 10,
-  },
-  label: {
-    fontSize: 16,
-    color: '#333',
-  },
-  amount: {
-    fontSize: 16,
-    color: '#333',
-  },
-  divider: {
-    width: '100%',
-    height: 1,
-    backgroundColor: '#333',
-    marginVertical: 20,
-  },
-  difference: {
-    fontSize: 18,
-    color: '#333',
-    fontWeight: 'bold',
-  },
-});
 
 export default MonthlyOverviewScreen;

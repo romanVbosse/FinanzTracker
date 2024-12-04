@@ -54,10 +54,12 @@ const styles = StyleSheet.create({
   },
   // Navigation-Leiste
   navBar: {
+    position: 'absolute',
+    bottom: 0,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: '#ececec',
+    width: '100%',
+    backgroundColor: '#ccc',
     paddingVertical: 10,
   },
   navBarIcon: {
@@ -65,6 +67,9 @@ const styles = StyleSheet.create({
     height: 24,
     tintColor: '#333',
   },
+  navButton: {
+    fontSize: 24,
+  }
 });
 
 export default styles;

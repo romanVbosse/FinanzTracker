@@ -6,6 +6,13 @@
  * @returns {boolean} - Gibt zurück, ob das Element erfolgreich hinzugefügt wurde.
  */
 function elementHinzufuegen(baum, kategorieName, neuesElement) {
+  //TODO: Check ob schon existiert
+   if(baum.benutzername) {
+    for (let ausgabe of baum.ausgaben) {
+      elementHinzufuegen(ausgabe, kategorieName, neuesElement);
+    }
+   }
+
     // Prüfen, ob der aktuelle Knoten die Zielkategorie ist
     if (baum.typ === "kategorie" && baum.name === kategorieName) {
       // Neues Element zur Liste der Kinder hinzufügen
@@ -36,8 +43,18 @@ function elementHinzufuegen(baum, kategorieName, neuesElement) {
  * @returns {boolean} - Gibt zurück, ob das Element erfolgreich gelöscht wurde.
  */
 function elementLoeschen(baum, name) {
+  if(baum.benutzername) {
+    for (let ausgabe of baum.ausgaben) {
+      elementLoeschen(ausgabe, name);
+    }
+   }
     if (!baum.kinder || !Array.isArray(baum.kinder)) {
       return false; // Kein Kinder-Array vorhanden, nichts zu löschen
+    }
+
+    // Prevent deletion of root-level "Einnahme" or "Ausgabe" categories
+    if ((baum.name === "Einnahme" || baum.name === "Ausgabe") && !baum.isRoot) {
+      return false; // Root-level categories cannot be deleted
     }
   
     // Suchen und löschen im kinder-Array des aktuellen Knotens
@@ -63,4 +80,4 @@ function elementLoeschen(baum, name) {
   }
   
   
-  export { elementHinzufuegen, elementLoeschen }
+  export { elementHinzufuegen, elementLoeschen };

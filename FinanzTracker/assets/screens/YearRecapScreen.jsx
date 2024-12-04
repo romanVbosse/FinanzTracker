@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
 import NavBar from '../components/NavBar';
+import styles from './styles/styles';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -99,77 +100,5 @@ const YearlyRecapScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#232323',
-    alignItems: 'center',
-    paddingTop: 50,
-  },
-  header: {
-    fontSize: 30,
-    color: '#fff',
-    marginBottom: 20,
-  },
-  box: {
-    width: '80%',
-    backgroundColor: '#ececec',
-    borderRadius: 10,
-    padding: 20,
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  chartText: {
-    fontSize: 20,
-    color: '#333',
-    marginTop: 10,
-  },
-  expenseBox: {
-    width: '80%',
-    backgroundColor: '#ececec',
-    borderRadius: 10,
-    padding: 10,
-  },
-  tabContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#d3d3d3',
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  tabButton: {
-    flex: 1,
-    paddingVertical: 10,
-    alignItems: 'center',
-  },
-  activeTab: {
-    backgroundColor: '#ccc',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  },
-  tabText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  expenseList: {
-    paddingHorizontal: 10,
-  },
-  expenseItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  expenseColor: {
-    width: 15,
-    height: 15,
-    marginRight: 10,
-    borderRadius: 3,
-  },
-  expenseText: {
-    fontSize: 16,
-    color: '#333',
-  },
-});
 
 export default YearlyRecapScreen;

@@ -1,20 +1,21 @@
   class BaseClass {
-    constructor(name, farbe) {
+    constructor(name, farbe, typ) {
       this.name = name;
       this.farbe = farbe;
+      this.typ = typ;
     }
   }
   
   class Kategorie extends BaseClass {
     constructor(name, farbe) {
-      super(name, farbe);
-      this.zahlungen = []; // Hier entweder Wieder Kategorie oder Zahlung rein
+      super(name, farbe, "kategorie");
+      this.kinder = []; // Hier entweder Wieder Kategorie oder Zahlung rein
     }
   }
   
   class Zahlung extends BaseClass {
     constructor(name, farbe, menge, regelmäßigkeit) {
-      super(name, farbe);
+      super(name, farbe, "zahlung");
       this.menge = menge;
       this.regelmäßigkeit = regelmäßigkeit; // Regelmäßigkeit in Tagen
       this.erfolgteZahlungen = []; // Liste von Beträgen
