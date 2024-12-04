@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import NavBar from '../components/nav_bar';
+import NavBar from '../components/NavBar';
 
 const MonthlyOverviewScreen = () => {
   return (

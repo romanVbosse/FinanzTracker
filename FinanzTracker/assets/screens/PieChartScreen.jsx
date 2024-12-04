@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
-import NavBar from '../components/nav_bar';
+import NavBar from '../components/NavBar';
 
 const screenWidth = Dimensions.get('window').width;
 
