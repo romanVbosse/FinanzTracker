@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styles from './styles/styles';
-import { createNutzer } from '../logic/UserFunctions';
-import { Link } from "expo-router"
+import { createNutzer } from '../assets/logic/UserFunctions';
+import { useRouter } from "expo-router"
 
 const LoginScreen = () => {
-
+  const navigation = useRouter();
+  
   const handlePress = async () => {
-    await createNutzer("Test");
+    createNutzer("Test");
+    navigation.push("/EditingOverviewScreen");
   };
 
   return (

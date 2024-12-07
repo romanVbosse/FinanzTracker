@@ -69,7 +69,39 @@ const styles = StyleSheet.create({
   },
   navButton: {
     fontSize: 24,
-  }
+  },
+  list: {
+    marginTop: 10,
+  },
+  item: {
+    backgroundColor: '#ffffff',
+    padding: 15,
+    marginBottom: 10,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 2,
+  },
+  itemText: {
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  linkText: {
+    color: '#007BFF',
+    marginTop: 5,
+  },
+  backButton: {
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: '#007BFF',
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+  },
+  backButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+  },
 });
 
 export default styles;

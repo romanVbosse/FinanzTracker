@@ -79,5 +79,43 @@ function elementLoeschen(baum, name) {
     return false; // Ziel-Element wurde nicht gefunden
   }
   
+  /**
+ * Ersetzt eine Kategorie oder Zahlung aus dem JSON-Baum.
+ * @param {Object} baum - Die JSON-Baumstruktur.
+ * @param {string} name - Der Name der Kategorie oder Zahlung, die ersetzt werden soll.
+ * @param {Object} neuesElement - Das neue Objekt
+ * @returns {boolean} - Gibt zurück, ob das Element erfolgreich gelöscht wurde.
+ */
+  function elementBearbeiten(baum, name, neuesElement) {
+    if (!baum.kinder || !Array.isArray(baum.kinder)) {
+      return false; // No children to edit
+    }
   
-  export { elementHinzufuegen, elementLoeschen };
+    // Find the target element
+    for (let i = 0; i < baum.kinder.length; i++) {
+      if (baum.kinder[i].name === name) {
+        const altesElement = baum.kinder[i];
+  
+        // Preserve children and replace the element
+        neuesElement.kinder = altesElement.kinder || [];
+        baum.kinder[i] = neuesElement;
+  
+        return true; // Element found and replaced
+      }
+    }
+  
+    // Recursively search in children
+    for (let kind of baum.kinder) {
+      if (kind.typ === "kategorie") {
+        const bearbeitet = elementBearbeiten(kind, name, neuesElement);
+        if (bearbeitet) {
+          return true; // Element edited successfully
+        }
+      }
+    }
+  
+    return false; // Element not found
+  }
+  
+
+  export { elementHinzufuegen, elementLoeschen, elementBearbeiten };

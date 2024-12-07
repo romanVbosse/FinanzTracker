@@ -29,15 +29,6 @@ async function createNutzer(benutzername) {
   elementHinzufuegen(testNutzer, "Miete", new Zahlung("Kaltmiete", "BBBBBB", "500€", "monthly"));
 
   console.log("2 mal dazu \n" + JSON.stringify(testNutzer));
-
-  elementLoeschen(testNutzer, "Kaltmiete");
-
-  console.log("1 mal weg \n" + JSON.stringify(testNutzer));
-
-  elementLoeschen(testNutzer, "Miete");
-
-  console.log("2 mal weg \n" + JSON.stringify(testNutzer));
-
   return newNutzer;
 }
 
@@ -55,7 +46,7 @@ function deleteNutzer(benutzername) {
  * @returns {string} benutzername - The name of the logged in user.
  */
 function getLoggedInNutzer(){
-  // return JSON.parse(localStorage.getItem('loggedInUser'));
+  return getData("loggedInUser").benutzername;
 }
 
 /**
@@ -72,7 +63,7 @@ function setLoggedInNutzer(){
  * @returns {Nutzer} Nutzer Object of User.
  */
 function getNutzerByName(benutzername) {
-  // return JSON.parse(localStorage.getItem(benutzername));
+  return getData(benutzername);
 }
 
 
