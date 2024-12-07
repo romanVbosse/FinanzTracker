@@ -29,6 +29,8 @@ async function createNutzer(benutzername) {
   elementHinzufuegen(testNutzer, "Miete", new Zahlung("Kaltmiete", "BBBBBB", "500€", "monthly"));
 
   console.log("2 mal dazu \n" + JSON.stringify(testNutzer));
+
+  await saveData(benutzername, testNutzer);
   return newNutzer;
 }
 
@@ -36,7 +38,7 @@ async function createNutzer(benutzername) {
  * delete user from database
  * @param {string} benutzername - The name of the user.
  */
-function deleteNutzer(benutzername) {
+async function deleteNutzer(benutzername) {
   // TODO: Nutzer in DB finden und löschen
   // localStorage.removeItem(benutzername);
 }
@@ -45,15 +47,15 @@ function deleteNutzer(benutzername) {
  * returns logged in user
  * @returns {string} benutzername - The name of the logged in user.
  */
-function getLoggedInNutzer(){
-  return getData("loggedInUser").benutzername;
+async function getLoggedInNutzer(){
+  return await getData("loggedInUser");
 }
 
 /**
  * sets logged in user
  * @param {string} benutzername - The name of the logged in user.
  */
-function setLoggedInNutzer(){
+async function setLoggedInNutzer(){
   // return JSON.parse(localStorage.getItem('loggedInUser'));
 }
 
@@ -62,8 +64,8 @@ function setLoggedInNutzer(){
  * @param {benutzername} string Name of user
  * @returns {Nutzer} Nutzer Object of User.
  */
-function getNutzerByName(benutzername) {
-  return getData(benutzername);
+async function getNutzerByName(benutzername) {
+  return await getData(benutzername);
 }
 
 

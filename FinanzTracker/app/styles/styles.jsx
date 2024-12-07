@@ -102,6 +102,16 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 16,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f8f9fa',
+  },
+  loadingText: {
+    fontSize: 20,
+    color: '#888',
+  },
 });
 
 export default styles;
