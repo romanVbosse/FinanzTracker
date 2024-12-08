@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import styles from './styles/styles';
 import { getLoggedInNutzer, getNutzerByName, updateNutzer } from '../assets/logic/UserFunctions';
 import NavBar from './NavBar';
-import { elementBearbeiten } from '../assets/logic/BaseClassFunctions';
+import { elementBearbeiten, elementLoeschen } from '../assets/logic/BaseClassFunctions';
 import { Kategorie, Zahlung } from '../assets/logic/BaseClass';
 
 
@@ -99,6 +99,15 @@ const ExpenseEditScreen = () => {
     setIsEditing(-1);
   };
 
+  const handleDeletePress = async (item) => {
+    const newTree = { ...tree };
+    elementLoeschen(newTree, item.name);
+    const loggedInUser = await getLoggedInNutzer();
+    await updateNutzer(loggedInUser, newTree);
+    await loadInitialTree();
+    setIsEditing(-1);
+  };
+
   // renders items in the list
   const renderItem = ({ item }) => (
     currentItems.indexOf(item) === isEditing ? (
@@ -160,6 +169,9 @@ const ExpenseEditScreen = () => {
         <Text style={[styles.itemText, { color: item.farbe }]}>{item.name}</Text>
         <TouchableOpacity style={styles.editButton} onPress={() => handleEditPress(item)}>
           <Text style={styles.editButtonText}>Edit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.editButton} onPress={() => handleDeletePress(item)}>
+          <Text style={styles.editButtonText}>Delete</Text>
         </TouchableOpacity>
       </TouchableOpacity>
     )
