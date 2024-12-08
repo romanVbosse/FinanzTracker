@@ -20,18 +20,23 @@ async function createNutzer(benutzername) {
 
   const testNutzer = await getData(benutzername);
 
-  console.log(JSON.stringify(testNutzer));
-
   elementHinzufuegen(testNutzer, "Ausgaben", new Kategorie("Miete", "#AAAAAA"));
-
-  console.log("1 mal dazu \n" + JSON.stringify(testNutzer));
 
   elementHinzufuegen(testNutzer, "Miete", new Zahlung("Kaltmiete", "BBBBBB", "500€", "monthly"));
 
-  console.log("2 mal dazu \n" + JSON.stringify(testNutzer));
-
   await saveData(benutzername, testNutzer);
   return newNutzer;
+}
+
+/**
+ * Updates an existing Nutzer JSON object with the provided tree.
+ * @param {string} benutzername - The name of the user.
+ * @param {Nutzer} nutzer - The updated Nutzer object.
+ * @return {Boolean} - It worked yay.
+ */
+async function updateNutzer(benutzername, nutzer) {
+  await saveData(benutzername, nutzer);
+  return true;
 }
 
 /**
@@ -69,4 +74,4 @@ async function getNutzerByName(benutzername) {
 }
 
 
-export { createNutzer, deleteNutzer, getLoggedInNutzer, setLoggedInNutzer, getNutzerByName };
+export { createNutzer, deleteNutzer, updateNutzer, getLoggedInNutzer, setLoggedInNutzer, getNutzerByName };

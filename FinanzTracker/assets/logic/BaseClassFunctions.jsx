@@ -87,6 +87,11 @@ function elementLoeschen(baum, name) {
  * @returns {boolean} - Gibt zurück, ob das Element erfolgreich gelöscht wurde.
  */
   function elementBearbeiten(baum, name, neuesElement) {
+    if(baum.benutzername) {
+      for (let ausgabe of baum.ausgaben) {
+        elementBearbeiten(ausgabe, name, neuesElement);
+      }
+     }
     if (!baum.kinder || !Array.isArray(baum.kinder)) {
       return false; // No children to edit
     }
@@ -99,7 +104,7 @@ function elementLoeschen(baum, name) {
         // Preserve children and replace the element
         neuesElement.kinder = altesElement.kinder || [];
         baum.kinder[i] = neuesElement;
-  
+        console.log("Element found and replaced" + name + neuesElement);
         return true; // Element found and replaced
       }
     }

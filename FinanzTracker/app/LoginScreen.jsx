@@ -8,7 +8,7 @@ const LoginScreen = () => {
   const navigation = useRouter();
   
   const handlePress = async () => {
-    await createNutzer("Test");
+    await createNutzer("TestNutzer");
     console.log(await getLoggedInNutzer());
     navigation.push("/EditingOverviewScreen");
   };
