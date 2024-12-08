@@ -22,7 +22,7 @@ async function createNutzer(benutzername) {
 
   elementHinzufuegen(testNutzer, "Ausgaben", new Kategorie("Miete", "#AAAAAA"));
 
-  elementHinzufuegen(testNutzer, "Miete", new Zahlung("Kaltmiete", "BBBBBB", "500€", "monthly"));
+  elementHinzufuegen(testNutzer, "Miete", new Zahlung("Kaltmiete", "#BBBBBB", "500€", "monthly"));
 
   await saveData(benutzername, testNutzer);
   return newNutzer;

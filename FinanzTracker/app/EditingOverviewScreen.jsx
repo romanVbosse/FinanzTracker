@@ -5,6 +5,7 @@ import styles from './styles/styles';
 import { getLoggedInNutzer, getNutzerByName, updateNutzer } from '../assets/logic/UserFunctions';
 import NavBar from './NavBar';
 import { elementBearbeiten } from '../assets/logic/BaseClassFunctions';
+import { Kategorie, Zahlung } from '../assets/logic/BaseClass';
 
 
 const ExpenseEditScreen = () => {
@@ -44,7 +45,7 @@ const ExpenseEditScreen = () => {
 
   const handleKategoriePress = (item) => {
     setIsEditing(-1);
-    if (item.kinder && Array.isArray(item.kinder)) {
+    if (item.kinder && Array.isArray(item.kinder) && item.kinder.length > 0) {
       setPath([...path, currentItems]); // Save current depth to path
       setCurrentItems(item.kinder); // Navigate to children
     }
@@ -79,20 +80,17 @@ const ExpenseEditScreen = () => {
     const newTree = { ...tree };
 
     if (item.typ === "kategorie") {
-      elementBearbeiten(newTree, originalName, { name: editName, farbe: editFarbe });
+      elementBearbeiten(newTree, originalName, new Kategorie(editName, editFarbe));
       console.log('Updated tree with name:'+ originalName + JSON.stringify(newTree));
     } else if (item.typ === "zahlung") {
-      elementBearbeiten(newTree, originalName, { name: editName, farbe: editFarbe, menge: editBetrag, regelmäßigkeit: editRythmus });
-      console.log('Updated tree:', JSON.stringify(newTree));
+      elementBearbeiten(newTree, originalName, new Zahlung(editName, editFarbe, editBetrag, editRythmus));
+      console.log('Updated tree with name:'+ originalName + JSON.stringify(newTree));
     }
 
     // Call the updateNutzer function to save the updated tree
     const loggedInUser = await getLoggedInNutzer();
     console.log('Logged in Nutzer:', loggedInUser); // Log the name of the logged-in Nutzer
     await updateNutzer(loggedInUser, newTree);
-
-    // Update the state with the new tree
-    setTree(newTree);
 
     // Reload the tree
     await loadInitialTree();
