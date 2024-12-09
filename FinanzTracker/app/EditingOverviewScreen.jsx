@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import styles from './styles/styles';
 import { getLoggedInNutzer, getNutzerByName, updateNutzer } from '../assets/logic/UserFunctions';
 import NavBar from './NavBar';
-import { elementBearbeiten, elementLoeschen } from '../assets/logic/BaseClassFunctions';
+import { elementBearbeiten, elementHinzufuegen, elementLoeschen } from '../assets/logic/BaseClassFunctions';
 import { Kategorie, Zahlung } from '../assets/logic/BaseClass';
 
 
@@ -108,6 +108,27 @@ const ExpenseEditScreen = () => {
     setIsEditing(-1);
   };
 
+  const handleAddKatPress = async (item) => {
+    const newTree = { ...tree };
+    const newKategorie = new Kategorie("Neue Kategorie", "#000000");
+    elementHinzufuegen(newTree, item.name, newKategorie);
+    const loggedInUser = await getLoggedInNutzer();
+    await updateNutzer(loggedInUser, newTree);
+    await loadInitialTree();
+    setIsEditing(-1);
+  };
+
+  const handleAddZahPress = async (item) => {
+    const newTree = { ...tree };
+    const newZahlung = new Zahlung("Neue Zahlung", "#000000", "10000€", "monthly");
+    elementHinzufuegen(newTree, item.name, newZahlung);
+    const loggedInUser = await getLoggedInNutzer();
+    await updateNutzer(loggedInUser, newTree);
+    await loadInitialTree(); 
+    setIsEditing(-1);
+  };
+
+
   // renders items in the list
   const renderItem = ({ item }) => (
     currentItems.indexOf(item) === isEditing ? (
@@ -123,6 +144,16 @@ const ExpenseEditScreen = () => {
             value={editFarbe}
             onChangeText={setEditFarbe}
           />
+          <TouchableOpacity style={styles.editButton} onPress={async () => { 
+            await handleAddKatPress(item); 
+          }}>
+            <Text style={styles.editButtonText}>Add Kategorie</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.editButton} onPress={async () => { 
+            await handleAddZahPress(item); 
+          }}>
+            <Text style={styles.editButtonText}>Add Zahlung</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.editButton} onPress={async () => { 
             await saveEditPress(item); 
           }}>
