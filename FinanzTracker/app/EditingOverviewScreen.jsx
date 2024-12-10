@@ -1,25 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import styles from './styles/styles';
-import { getLoggedInNutzer, getNutzerByName, updateNutzer } from '../assets/logic/UserFunctions';
-import NavBar from './NavBar';
-import { elementBearbeiten, elementHinzufuegen, elementLoeschen } from '../assets/logic/BaseClassFunctions';
-import { Kategorie, Zahlung } from '../assets/logic/BaseClass';
-
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import styles from "./styles/styles";
+import {
+  getLoggedInNutzer,
+  getNutzerByName,
+  updateNutzer,
+} from "../assets/logic/UserFunctions";
+import {
+  elementBearbeiten,
+  elementHinzufuegen,
+  elementLoeschen,
+} from "../assets/logic/BaseClassFunctions";
+import { Kategorie, Zahlung, Regularity } from "../assets/logic/BaseClass";
+import NavBar from "./NavBar";
 
 const ExpenseEditScreen = () => {
-  const [tree, setTree] = useState({ }); // The JSON tree structure
+  const [tree, setTree] = useState({}); // The JSON tree structure
   const [currentItems, setCurrentItems] = useState([]); // Items at the current depth
   const [path, setPath] = useState([]); // Track navigation path
   const [isLoading, setIsLoading] = useState(true); // Loading state
   const [isEditing, setIsEditing] = useState(-1); // Editing state
 
   // States for categories of Kategorie and Zahlung for editing
-  const [originalName, setOriginalName] = useState('');
-  const [editName, setEditName] = useState('');
-  const [editFarbe, setEditFarbe] = useState(''); 
+  const [originalName, setOriginalName] = useState("");
+  const [editName, setEditName] = useState("");
+  const [editFarbe, setEditFarbe] = useState("");
   const [editBetrag, setEditBetrag] = useState(-1);
+  const [editTime, setEditTime] = useState(-1);
   const [editRythmus, setEditRythmus] = useState(-1);
 
   // Function to load the initial tree from AsyncStorage
@@ -32,7 +46,7 @@ const ExpenseEditScreen = () => {
         setCurrentItems([...jsonTree.ausgaben, ...jsonTree.einnahmen]); // Combine ausgaben and einnahmen
       }
     } catch (error) {
-      console.error('Error loading tree:', error);
+      console.error("Error loading tree:", error);
     } finally {
       setIsLoading(false); // Stop loading spinner
     }
@@ -67,11 +81,12 @@ const ExpenseEditScreen = () => {
     setEditFarbe(item.farbe);
     if (item.typ === "zahlung") {
       setEditBetrag(item.menge);
-      setEditRythmus(item.regelmäßigkeit);
-    } 
+      setEditTime(item.regelmäßigkeit.time);
+      setEditRythmus(item.regelmäßigkeit.anzahl);
+    }
   };
 
-  const resetEditPress = () => { 
+  const resetEditPress = () => {
     setIsEditing(-1);
   };
 
@@ -80,16 +95,33 @@ const ExpenseEditScreen = () => {
     const newTree = { ...tree };
 
     if (item.typ === "kategorie") {
-      elementBearbeiten(newTree, originalName, new Kategorie(editName, editFarbe));
-      console.log('Updated tree with name:'+ originalName + JSON.stringify(newTree));
+      elementBearbeiten(
+        newTree,
+        originalName,
+        new Kategorie(editName, editFarbe)
+      );
+      console.log(
+        "Updated tree with name:" + originalName + JSON.stringify(newTree)
+      );
     } else if (item.typ === "zahlung") {
-      elementBearbeiten(newTree, originalName, new Zahlung(editName, editFarbe, editBetrag, editRythmus));
-      console.log('Updated tree with name:'+ originalName + JSON.stringify(newTree));
+      elementBearbeiten(
+        newTree,
+        originalName,
+        new Zahlung(
+          editName,
+          editFarbe,
+          editBetrag,
+          new Regularity(editTime, editRythmus)
+        )
+      );
+      console.log(
+        "Updated tree with name:" + originalName + JSON.stringify(newTree)
+      );
     }
 
     // Call the updateNutzer function to save the updated tree
     const loggedInUser = await getLoggedInNutzer();
-    console.log('Logged in Nutzer:', loggedInUser); // Log the name of the logged-in Nutzer
+    console.log("Logged in Nutzer:", loggedInUser); // Log the name of the logged-in Nutzer
     await updateNutzer(loggedInUser, newTree);
 
     // Reload the tree
@@ -120,20 +152,27 @@ const ExpenseEditScreen = () => {
 
   const handleAddZahPress = async (item) => {
     const newTree = { ...tree };
-    const newZahlung = new Zahlung("Neue Zahlung", "#000000", "10000€", "monthly");
+    const newZahlung = new Zahlung(
+      "Neue Zahlung",
+      "#000000",
+      "10000",
+      new Regularity("Monat", 1)
+    );
     elementHinzufuegen(newTree, item.name, newZahlung);
     const loggedInUser = await getLoggedInNutzer();
     await updateNutzer(loggedInUser, newTree);
-    await loadInitialTree(); 
+    await loadInitialTree();
     setIsEditing(-1);
   };
 
-
   // renders items in the list
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }) =>
     currentItems.indexOf(item) === isEditing ? (
       item.typ === "kategorie" ? (
-        <TouchableOpacity style={styles.item} onPress={() => handleKategoriePress(item)}>
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => handleKategoriePress(item)}
+        >
           <TextInput
             style={[styles.itemText, { color: item.farbe }]}
             value={editName}
@@ -144,27 +183,42 @@ const ExpenseEditScreen = () => {
             value={editFarbe}
             onChangeText={setEditFarbe}
           />
-          <TouchableOpacity style={styles.editButton} onPress={async () => { 
-            await handleAddKatPress(item); 
-          }}>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={async () => {
+              await handleAddKatPress(item);
+            }}
+          >
             <Text style={styles.editButtonText}>Add Kategorie</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.editButton} onPress={async () => { 
-            await handleAddZahPress(item); 
-          }}>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={async () => {
+              await handleAddZahPress(item);
+            }}
+          >
             <Text style={styles.editButtonText}>Add Zahlung</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.editButton} onPress={async () => { 
-            await saveEditPress(item); 
-          }}>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={async () => {
+              await saveEditPress(item);
+            }}
+          >
             <Text style={styles.editButtonText}>Save</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.editButton} onPress={() => resetEditPress()}>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={() => resetEditPress()}
+          >
             <Text style={styles.editButtonText}>Cancel</Text>
           </TouchableOpacity>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity style={styles.item} onPress={() => handleKategoriePress(item)}>
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => handleKategoriePress(item)}
+        >
           <TextInput
             style={[styles.itemText, { color: item.farbe }]}
             value={editName}
@@ -182,31 +236,58 @@ const ExpenseEditScreen = () => {
           />
           <TextInput
             style={[styles.itemText, { color: item.farbe }]}
-            value={editRythmus}
-            onChangeText={setEditRythmus} 
+            value={editRythmus.toString()}
+            onChangeText={(text) => setEditRythmus(parseFloat(text))}
+            keyboardType="numeric"
           />
-          <TouchableOpacity style={styles.editButton} onPress={async () => { 
-            await saveEditPress(item); 
-          }}>
+          <Picker
+            selectedValue={editTime}
+            style={styles.picker}
+            onValueChange={(itemValue) => setEditTime(itemValue)}
+          >
+            <Picker.Item label="Daily" value={1} />
+            <Picker.Item label="Weekly" value={7} />
+            <Picker.Item label="Monthly" value={30} />
+            <Picker.Item label="Yearly" value={365} />
+          </Picker>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={async () => {
+              await saveEditPress(item);
+            }}
+          >
             <Text style={styles.editButtonText}>Save</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.editButton} onPress={() => resetEditPress()}>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={() => resetEditPress()}
+          >
             <Text style={styles.editButtonText}>Cancel</Text>
           </TouchableOpacity>
         </TouchableOpacity>
       )
     ) : (
-      <TouchableOpacity style={styles.item} onPress={() => handleKategoriePress(item)}>
-        <Text style={[styles.itemText, { color: item.farbe }]}>{item.name}</Text>
-        <TouchableOpacity style={styles.editButton} onPress={() => handleEditPress(item)}>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => handleKategoriePress(item)}
+      >
+        <Text style={[styles.itemText, { color: item.farbe }]}>
+          {item.name}
+        </Text>
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => handleEditPress(item)}
+        >
           <Text style={styles.editButtonText}>Edit</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.editButton} onPress={() => handleDeletePress(item)}>
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => handleDeletePress(item)}
+        >
           <Text style={styles.editButtonText}>Delete</Text>
         </TouchableOpacity>
       </TouchableOpacity>
-    )
-  );
+    );
 
   if (isLoading) {
     return (
@@ -229,6 +310,7 @@ const ExpenseEditScreen = () => {
         renderItem={renderItem}
         contentContainerStyle={styles.list}
       />
+      <NavBar />
     </View>
   );
 };

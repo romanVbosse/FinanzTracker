@@ -1,19 +1,37 @@
-import { View, StyleSheet, Text } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
 import styles from "./styles/styles";
-import { useRouter } from "expo-router"
 
-const navigation = useRouter();
+const NavBar = () => {
+  const navigation = useRouter();
 
-const handlePress = (path) => {
+  const handlePress = (path) => {
     navigation.push(path);
-};
+  };
 
-const NavBar = () => { return(
+  return (
     <View style={styles.navBar}>
-        <Text style={styles.navButton} onPress={handlePress("/YearRecapScreen")}>📊</Text>
-        <Text style={styles.navButton} onPress={handlePress("/PieChartScreen")}>🏠</Text>
-        <Text style={styles.navButton} onPress={handlePress("/MonthlyOverviewScreen")}>🔄</Text>
-     </View>
-)};
+      <Text
+        style={styles.navButton}
+        onPress={() => handlePress("/YearRecapScreen")}
+      >
+        📊
+      </Text>
+      <Text
+        style={styles.navButton}
+        onPress={() => handlePress("/PieChartScreen")}
+      >
+        🏠
+      </Text>
+      <Text
+        style={styles.navButton}
+        onPress={() => handlePress("/EditingOverviewScreen")}
+      >
+        🔄
+      </Text>
+    </View>
+  );
+};
 
 export default NavBar;
