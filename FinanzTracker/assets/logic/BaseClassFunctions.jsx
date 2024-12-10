@@ -55,6 +55,9 @@ function elementLoeschen(baum, name) {
     for (let ausgabe of baum.ausgaben) {
       elementLoeschen(ausgabe, name);
     }
+    for (let einnahme of baum.einnahmen) {
+      elementLoeschen(einnahme, name);
+    }
   }
   if (!baum.kinder || !Array.isArray(baum.kinder)) {
     return false; // Kein Kinder-Array vorhanden, nichts zu löschen
@@ -99,6 +102,9 @@ function elementBearbeiten(baum, name, neuesElement) {
     for (let ausgabe of baum.ausgaben) {
       elementBearbeiten(ausgabe, name, neuesElement);
     }
+    for (let einnahme of baum.einnahmen) {
+      elementBearbeiten(einnahme, name, neuesElement);
+    }
   }
   if (!baum.kinder || !Array.isArray(baum.kinder)) {
     return false; // No children to edit
@@ -141,6 +147,9 @@ function getSumOfPayments(baum, days) {
   if (baum.benutzername) {
     for (let ausgabe of baum.ausgaben) {
       sum += getSumOfPayments(ausgabe, days);
+    }
+    for (let einnahme of baum.einnahmen) {
+      sum += getSumOfPayments(einnahme, days);
     }
   }
   if (baum.typ === "zahlung") {
