@@ -13,6 +13,9 @@ function elementHinzufuegen(baum, kategorieName, neuesElement) {
     for (let ausgabe of baum.ausgaben) {
       elementHinzufuegen(ausgabe, kategorieName, neuesElement);
     }
+    for (let einnahme of baum.einnahmen) {
+      elementHinzufuegen(einnahme, kategorieName, neuesElement);
+    }
   }
 
   // Prüfen, ob der aktuelle Knoten die Zielkategorie ist
@@ -38,7 +41,6 @@ function elementHinzufuegen(baum, kategorieName, neuesElement) {
       }
     }
   }
-
   return false; // Zielkategorie nicht gefunden
 }
 

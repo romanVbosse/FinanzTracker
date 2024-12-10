@@ -46,6 +46,12 @@ const LoginScreen = () => {
           <Text style={styles.loginButtonText}>Einloggen</Text>
           {/* </Link> */}
         </TouchableOpacity>
+
+        <TouchableOpacity style={styles.loginButton} onPress={handlePress}>
+          {/* <Link href="./screens/EditingOverviewScreen"> */}
+          <Text style={styles.loginButtonText}>Test-Account</Text>
+          {/* </Link> */}
+        </TouchableOpacity>
       </View>
 
       {/* Registration Text */}
