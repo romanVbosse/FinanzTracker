@@ -14,15 +14,11 @@ class Kategorie extends BaseClass {
 }
 
 class Zahlung extends BaseClass {
-  constructor(name, farbe, menge, regelmäßigkeit) {
+  constructor(name, farbe, menge, regelmäßigkeit, erfolgteZahlungen) {
     super(name, farbe, "zahlung");
     this.menge = menge;
     this.regelmäßigkeit = regelmäßigkeit; // Regelmäßigkeit als Regularity-Objekt
-    this.erfolgteZahlungen = []; // Liste von Beträgen
-  }
-
-  addErfolgteZahlung(betrag) {
-    this.erfolgteZahlungen.push(betrag);
+    this.erfolgteZahlungen = erfolgteZahlungen; // Liste von Beträgen
   }
 }
 

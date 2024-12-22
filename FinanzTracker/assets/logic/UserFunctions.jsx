@@ -54,12 +54,15 @@ async function createTestNutzer() {
             ],
           },
           {
-            name: "Taschengeld",
+            name: "Freizeit",
             farbe: "#000000",
             typ: "zahlung",
             menge: "50",
             regelmäßigkeit: { time: 7, anzahl: 1 },
-            erfolgteZahlungen: [],
+            erfolgteZahlungen: [
+              { datum: new Date(2021, 5, 1), menge: "200" },
+              { datum: new Date(2021, 5, 8), menge: "50" },
+            ],
             kinder: [],
           },
           {

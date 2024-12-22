@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import PieChart from "react-native-pie-chart";
-import { Dimensions } from "react-native";
 import NavBar from "./NavBar";
 import styles from "./styles/styles";
 import {

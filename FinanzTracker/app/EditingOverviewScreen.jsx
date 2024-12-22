@@ -20,6 +20,7 @@ import {
 } from "../assets/logic/BaseClassFunctions";
 import { Kategorie, Zahlung, Regularity } from "../assets/logic/BaseClass";
 import NavBar from "./NavBar";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const ExpenseEditScreen = () => {
   const [tree, setTree] = useState({}); // The JSON tree structure
@@ -27,6 +28,7 @@ const ExpenseEditScreen = () => {
   const [path, setPath] = useState([]); // Track navigation path
   const [isLoading, setIsLoading] = useState(true); // Loading state
   const [isEditing, setIsEditing] = useState(-1); // Editing state
+  const [showDatePicker, setShowDatePicker] = useState(false); // Date picker state
 
   // States for categories of Kategorie and Zahlung for editing
   const [originalName, setOriginalName] = useState("");
@@ -35,6 +37,8 @@ const ExpenseEditScreen = () => {
   const [editBetrag, setEditBetrag] = useState(-1);
   const [editTime, setEditTime] = useState(-1);
   const [editRythmus, setEditRythmus] = useState(-1);
+  const [editZahlungen, setEditZahlungen] = useState([]);
+  const [currentZahlungIndex, setCurrentZahlungIndex] = useState(-1);
 
   // Function to load the initial tree from AsyncStorage
   const loadInitialTree = async () => {
@@ -83,6 +87,8 @@ const ExpenseEditScreen = () => {
       setEditBetrag(item.menge);
       setEditTime(item.regelmäßigkeit.time);
       setEditRythmus(item.regelmäßigkeit.anzahl);
+      setEditZahlungen(item.erfolgteZahlungen);
+      console.log("Edit Zahlung: " + JSON.stringify(editZahlungen));
     }
   };
 
@@ -111,7 +117,8 @@ const ExpenseEditScreen = () => {
           editName,
           editFarbe,
           editBetrag,
-          new Regularity(editTime, editRythmus)
+          new Regularity(editTime, editRythmus),
+          editZahlungen
         )
       );
       console.log(
@@ -163,6 +170,62 @@ const ExpenseEditScreen = () => {
     await updateNutzer(loggedInUser, newTree);
     await loadInitialTree();
     setIsEditing(-1);
+  };
+
+  const handleDatePress = (index) => {
+    console.log("Type of index: " + typeof index);
+    console.log("Index value: ", index);
+
+    // If index is an object, extract the number
+    if (typeof index === "object" && index !== null) {
+      index = index.index; // Adjust this line based on the actual structure of the object
+    }
+
+    setCurrentZahlungIndex(index);
+    console.log("Current Index: " + currentZahlungIndex);
+    console.log("Current passed index: " + index);
+    console.log("Current Zahlung: " + JSON.stringify(editZahlungen));
+    setShowDatePicker(true);
+  };
+
+  const handleAmountChange = (text, index) => {
+    let prevZahlungen = [...editZahlungen];
+    prevZahlungen[index].menge = text;
+    setEditZahlungen(prevZahlungen);
+  };
+
+  const handleDeleteZahlung = (index) => {
+    const newZahlungen = editZahlungen.filter((_, i) => i !== index);
+    setEditZahlungen(newZahlungen);
+  };
+
+  const handleAddZahlung = (item) => {
+    let time = new Date().getTime();
+    const newZahlungen = [
+      ...editZahlungen,
+      {
+        datum: new Date(time).toISOString().split("T")[0],
+        menge: item.menge,
+      },
+    ];
+    setEditZahlungen(newZahlungen);
+  };
+
+  const handleDateChange = (event, selectedDate) => {
+    console.log(
+      "Selected Date: " +
+        JSON.stringify(editZahlungen) +
+        " " +
+        currentZahlungIndex
+    );
+    setShowDatePicker(false);
+    if (selectedDate) {
+      const newZahlungen = [...editZahlungen];
+      newZahlungen[currentZahlungIndex].datum = selectedDate
+        .toISOString()
+        .split("T")[0];
+      setEditZahlungen(newZahlungen);
+    }
   };
 
   // renders items in the list
@@ -250,6 +313,35 @@ const ExpenseEditScreen = () => {
             <Picker.Item label="Monthly" value={30} />
             <Picker.Item label="Yearly" value={365} />
           </Picker>
+          <View style={styles.erfolgteZahlungContainer}>
+            {editZahlungen.map((zahlung, index) => (
+              <View key={index} style={styles.zahlungItem}>
+                <TouchableOpacity onPress={() => handleDatePress(index)}>
+                  <Text style={styles.zahlungDate}>{zahlung.datum}</Text>
+                </TouchableOpacity>
+                <TextInput
+                  style={styles.zahlungAmount}
+                  value={editZahlungen[index].menge.toString()}
+                  onChangeText={(text) => handleAmountChange(text, index)}
+                  keyboardType="numeric"
+                />
+                <TouchableOpacity onPress={() => handleDeleteZahlung(index)}>
+                  <Text style={styles.deleteButton}>Delete</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+            {showDatePicker && (
+              <DateTimePicker
+                value={new Date(editZahlungen[currentZahlungIndex].datum)}
+                mode="date"
+                display="default"
+                onChange={handleDateChange}
+              />
+            )}
+            <TouchableOpacity onPress={() => handleAddZahlung(item)}>
+              <Text style={styles.addButton}>Add Zahlung</Text>
+            </TouchableOpacity>
+          </View>
           <TouchableOpacity
             style={styles.editButton}
             onPress={async () => {
