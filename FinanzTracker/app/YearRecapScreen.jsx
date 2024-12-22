@@ -5,6 +5,10 @@ import { Dimensions } from "react-native";
 import NavBar from "./NavBar";
 import styles from "./styles/styles";
 import { CheckBox } from "react-native-elements";
+import {
+  getLoggedInNutzer,
+  getNutzerByName,
+} from "../assets/logic/UserFunctions";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -13,12 +17,19 @@ const YearlyRecapScreen = () => {
   const [currentItemsChecked, setCurrentItemsChecked] = useState([]); // Items at the current depth
   const [path, setPath] = useState([]); // Track navigation path
 
+  const [isLoading, setIsLoading] = useState(true); // Loading state
+
   const loadInitialTree = async () => {
-    const loggedInUser = await getLoggedInNutzer();
-    const jsonTree = await getNutzerByName(loggedInUser); // Fetch the tree from storage
-    if (jsonTree) {
-      setCurrentItems([...jsonTree.ausgaben, ...jsonTree.einnahmen]); // Combine ausgaben and einnahmen
-      setCurrentItemsChecked([false, false]);
+    try {
+      const loggedInUser = await getLoggedInNutzer();
+      const jsonTree = await getNutzerByName(loggedInUser); // Fetch the tree from storage
+      if (jsonTree) {
+        setCurrentItems([...jsonTree.ausgaben, ...jsonTree.einnahmen]); // Combine ausgaben and einnahmen
+      }
+    } catch (error) {
+      console.error("Error loading tree:", error);
+    } finally {
+      setIsLoading(false); // Stop loading spinner
     }
   };
 
@@ -68,6 +79,14 @@ const YearlyRecapScreen = () => {
       </TouchableOpacity>
     );
   };
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
+  }
 
   const BarChartScreen = ({
     currentItems,
