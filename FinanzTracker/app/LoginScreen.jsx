@@ -8,6 +8,8 @@ import {
 } from "../assets/logic/UserFunctions";
 import { signInWithEmail, signUpWithEmail } from "../assets/logic/FBAuth";
 import { useRouter } from "expo-router";
+import { getDataFB } from "../assets/logic/Firebase";
+import { saveData } from "../assets/logic/TemporarySerialization";
 
 const LoginScreen = () => {
   const navigation = useRouter();
@@ -25,8 +27,17 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     try {
       const user = await signInWithEmail(email, password);
+      await saveData("loggedInUser", email);
       console.log("Logged in user:", user);
       Alert.alert("Erfolg", "Sie sind eingeloggt!");
+
+      // Hole die Daten aus Firebase
+      const userData = await getDataFB(email, email);
+      if (userData) {
+        // Speichere die Daten in AsyncStorage
+        await saveData(email, userData);
+      }
+
       navigation.push("/PieChartScreen"); // Navigiere zur nächsten Seite
     } catch (error) {
       console.error("Error logging in:", error.message);
