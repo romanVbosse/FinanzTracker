@@ -286,7 +286,7 @@ const YearRecapScreen = () => {
         </View>
         <View style={styles.lowerBox}>
           <View>
-            <Text>Intervall</Text>
+            <Text style={styles.subTitle}>Intervall</Text>
             <Picker
               selectedValue={intervall}
               style={styles.picker}
@@ -297,13 +297,13 @@ const YearRecapScreen = () => {
               <Picker.Item label="Monthly" value={30} />
               <Picker.Item label="Yearly" value={365} />
             </Picker>
-            <Text>Startdatum</Text>
+            <Text style={styles.subTitle}>Startdatum</Text>
             <TouchableOpacity onPress={() => handleDatePress("start")}>
               <Text style={styles.zahlungDate}>
                 {new Date(startDate).toISOString().split("T")[0]}
               </Text>
             </TouchableOpacity>
-            <Text>Enddatum</Text>
+            <Text style={styles.subTitle}>Enddatum</Text>
             <TouchableOpacity onPress={() => handleDatePress("end")}>
               <Text style={styles.zahlungDate}>
                 {new Date(endDate).toISOString().split("T")[0]}

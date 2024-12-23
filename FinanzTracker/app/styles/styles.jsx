@@ -95,6 +95,13 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   itemText: {
+    cornerRadius: 8,
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  itemTextAlt: {
+    color: "#DDD",
+    cornerRadius: 8,
     fontSize: 18,
     marginBottom: 5,
   },
@@ -112,6 +119,25 @@ const styles = StyleSheet.create({
   backButtonText: {
     color: "#ffffff",
     fontSize: 16,
+  },
+  editButton: {
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: "#007BFF",
+    borderRadius: 8,
+    alignSelf: "flex-bottom",
+  },
+  editButtonText: {
+    color: "#ffffff",
+    fontSize: 16,
+  },
+  textInput: {
+    backgroundColor: "#dddddd",
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 8,
+    width: "100%",
+    alignSelf: "center",
   },
   loadingContainer: {
     flex: 1,
@@ -145,8 +171,22 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     color: "#FFF",
   },
+  subTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginVertical: 5,
+    color: "#FFF",
+  },
+  picker: {
+    backgroundColor: "#dddddd",
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 8,
+    width: "100%",
+  },
   zahlungDate: {
     fontSize: 16,
+    borderRadius: 8,
     color: "#000",
     padding: 10,
     backgroundColor: "#ddd", // Ensure this contrasts with the text color

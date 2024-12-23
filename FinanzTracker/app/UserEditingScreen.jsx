@@ -55,19 +55,21 @@ const UserEditingScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>User Overview</Text>
-      <Text>Benutzername:</Text>
-      <Text> {user} </Text>
+      <Text style={styles.subTitle}>Benutzername:</Text>
+      <Text style={styles.itemTextAlt}> {user} </Text>
       <View>
-        <Text>New Password:</Text>
+        <Text style={styles.subTitle}>New Password:</Text>
         <TextInput
+          style={styles.textInput}
           secureTextEntry
           value={password}
           onChangeText={setPassword}
         />
       </View>
       <View>
-        <Text>Confirm Password:</Text>
+        <Text style={styles.subTitle}>Confirm Password:</Text>
         <TextInput
+          style={styles.textInput}
           secureTextEntry
           value={confirmPassword}
           onChangeText={setConfirmPassword}

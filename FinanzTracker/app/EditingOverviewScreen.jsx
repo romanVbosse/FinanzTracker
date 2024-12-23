@@ -91,7 +91,9 @@ const ExpenseEditScreen = () => {
     if (item.typ === "zahlung") {
       setEditBetrag(item.menge);
       setEditTime(item.regelmäßigkeit.time);
+      console.log("rhytmus", item.regelmäßigkeit.anzahl);
       setEditRythmus(item.regelmäßigkeit.anzahl);
+      console.log("rjytmus", editRythmus);
       setEditZahlungen(item.erfolgteZahlungen);
     }
   };
@@ -257,19 +259,19 @@ const ExpenseEditScreen = () => {
           onPress={() => handleKategoriePress(item)}
         >
           <TextInput
-            style={[styles.itemText, { color: item.farbe }]}
+            style={[styles.textInput, { color: item.farbe }]}
             value={editName}
             onChangeText={setEditName}
           />
           <TextInput
-            style={[styles.itemText, { color: item.farbe }]}
+            style={[styles.textInput, { color: item.farbe }]}
             value={editFarbe}
             onChangeText={setEditFarbe}
           />
           {isAdding ? (
             <>
               <TextInput
-                style={styles.itemText}
+                style={styles.textInput}
                 value={addString}
                 onChangeText={setAddString}
               />
@@ -320,25 +322,25 @@ const ExpenseEditScreen = () => {
           onPress={() => handleKategoriePress(item)}
         >
           <TextInput
-            style={[styles.itemText, { color: item.farbe }]}
+            style={[styles.textInput, { color: item.farbe }]}
             value={editName}
             onChangeText={setEditName}
           />
           <TextInput
-            style={[styles.itemText, { color: item.farbe }]}
+            style={[styles.textInput, { color: item.farbe }]}
             value={editFarbe}
             onChangeText={setEditFarbe}
           />
           <TextInput
-            style={[styles.itemText, { color: item.farbe }]}
+            style={[styles.textInput, { color: item.farbe }]}
             value={editBetrag}
             onChangeText={setEditBetrag}
             keyboardType="numeric"
           />
           <TextInput
-            style={[styles.itemText, { color: item.farbe }]}
+            style={[styles.textInput, { color: item.farbe }]}
             value={editRythmus.toString()}
-            onChangeText={(text) => setEditRythmus(parseFloat(text))}
+            onChangeText={setEditRythmus}
             keyboardType="numeric"
           />
           <Picker
@@ -448,6 +450,7 @@ const ExpenseEditScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Edit Expenses</Text>
       {path.length > 0 && (
         <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
           <Text style={styles.backButtonText}>Back</Text>
