@@ -54,6 +54,8 @@ const styles = StyleSheet.create({
   },
   // Navigation-Leiste
   navBar: {
+    flex: 1,
+    height: 60,
     position: "absolute",
     bottom: 0,
     flexDirection: "row",
@@ -115,20 +117,28 @@ const styles = StyleSheet.create({
     color: "#888",
   },
   upperBox: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
+    alignSelf: "flex-start",
   },
   lowerBox: {
     flex: 1,
+    paddingBottom: 60,
     justifyContent: "flex-start",
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
     marginVertical: 10,
+    color: "#FFF",
+  },
+  zahlungDate: {
+    fontSize: 16,
     color: "#000",
+    padding: 10,
+    backgroundColor: "#ddd", // Ensure this contrasts with the text color
+    marginVertical: 5,
   },
 });
 
