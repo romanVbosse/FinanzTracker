@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import styles from "./styles/styles";
 
@@ -12,24 +12,24 @@ const NavBar = () => {
 
   return (
     <View style={styles.navBar}>
-      <Text
-        style={styles.navButton}
-        onPress={() => handlePress("/YearRecapScreen")}
-      >
-        📊
-      </Text>
-      <Text
-        style={styles.navButton}
-        onPress={() => handlePress("/PieChartScreen")}
-      >
-        🏠
-      </Text>
-      <Text
-        style={styles.navButton}
-        onPress={() => handlePress("/EditingOverviewScreen")}
-      >
-        🔄
-      </Text>
+      <TouchableOpacity onPress={() => handlePress("/YearRecapScreen")}>
+        <Image
+          source={require("../assets/bars-sortieren.png")}
+          style={styles.navBarIcon}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handlePress("/PieChartScreen")}>
+        <Image
+          source={require("../assets/chart-pie-alt.png")}
+          style={styles.navBarIcon}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handlePress("/EditingOverviewScreen")}>
+        <Image
+          source={require("../assets/schaltflache-bearbeiten.png")}
+          style={styles.navBarIcon}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
