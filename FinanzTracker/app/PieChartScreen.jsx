@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
 import PieChart from "react-native-pie-chart";
 import NavBar from "./NavBar";
 import styles from "./styles/styles";
@@ -57,10 +57,25 @@ const ExpenseOverviewScreen = () => {
         style={styles.item}
         onPress={() => handleKategoriePress(item)}
       >
-        <Text style={[styles.itemText, { color: item.farbe }]}>
-          {item.name}
-        </Text>
-        <Text style={styles.itemText}>{getSumOfPayments(item, 30)}</Text>
+        <View>
+          <Text style={[styles.itemText, { color: item.farbe }]}>
+            {item.name}
+          </Text>
+          <Text style={styles.itemText}>
+            {getSumOfPayments(item, 30) + "€/Monat"}
+          </Text>
+        </View>
+        {item.typ === "kategorie" ? (
+          <Image
+            source={require("../assets/ordner.png")}
+            style={styles.navBarIcon}
+          />
+        ) : (
+          <Image
+            source={require("../assets/euro.png")}
+            style={styles.navBarIcon}
+          />
+        )}
       </TouchableOpacity>
     );
   };

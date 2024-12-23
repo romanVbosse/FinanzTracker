@@ -203,7 +203,7 @@ const ExpenseEditScreen = () => {
   const handleAddElement = async (item) => {
     const newTree = { ...tree };
     console.log("Adding element:", addString);
-    if (findeElement(newTree, addString)) {
+    if (findeElement(newTree, addString) || addString === "") {
       alert("Element already exists");
       return;
     }

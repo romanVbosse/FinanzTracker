@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
-    alignSelf: "flex-start",
+    alignSelf: "center",
   },
   lowerBox: {
     flex: 1,
