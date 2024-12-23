@@ -88,7 +88,6 @@ const ExpenseEditScreen = () => {
       setEditTime(item.regelmäßigkeit.time);
       setEditRythmus(item.regelmäßigkeit.anzahl);
       setEditZahlungen(item.erfolgteZahlungen);
-      console.log("Edit Zahlung: " + JSON.stringify(editZahlungen));
     }
   };
 
@@ -106,9 +105,6 @@ const ExpenseEditScreen = () => {
         originalName,
         new Kategorie(editName, editFarbe)
       );
-      console.log(
-        "Updated tree with name:" + originalName + JSON.stringify(newTree)
-      );
     } else if (item.typ === "zahlung") {
       elementBearbeiten(
         newTree,
@@ -121,14 +117,10 @@ const ExpenseEditScreen = () => {
           editZahlungen
         )
       );
-      console.log(
-        "Updated tree with name:" + originalName + JSON.stringify(newTree)
-      );
     }
 
     // Call the updateNutzer function to save the updated tree
     const loggedInUser = await getLoggedInNutzer();
-    console.log("Logged in Nutzer:", loggedInUser); // Log the name of the logged-in Nutzer
     await updateNutzer(loggedInUser, newTree);
 
     // Reload the tree
@@ -173,18 +165,12 @@ const ExpenseEditScreen = () => {
   };
 
   const handleDatePress = (index) => {
-    console.log("Type of index: " + typeof index);
-    console.log("Index value: ", index);
-
     // If index is an object, extract the number
     if (typeof index === "object" && index !== null) {
       index = index.index; // Adjust this line based on the actual structure of the object
     }
 
     setCurrentZahlungIndex(index);
-    console.log("Current Index: " + currentZahlungIndex);
-    console.log("Current passed index: " + index);
-    console.log("Current Zahlung: " + JSON.stringify(editZahlungen));
     setShowDatePicker(true);
   };
 
@@ -212,12 +198,6 @@ const ExpenseEditScreen = () => {
   };
 
   const handleDateChange = (event, selectedDate) => {
-    console.log(
-      "Selected Date: " +
-        JSON.stringify(editZahlungen) +
-        " " +
-        currentZahlungIndex
-    );
     setShowDatePicker(false);
     if (selectedDate) {
       const newZahlungen = [...editZahlungen];
@@ -317,7 +297,9 @@ const ExpenseEditScreen = () => {
             {editZahlungen.map((zahlung, index) => (
               <View key={index} style={styles.zahlungItem}>
                 <TouchableOpacity onPress={() => handleDatePress(index)}>
-                  <Text style={styles.zahlungDate}>{zahlung.datum}</Text>
+                  <Text style={styles.zahlungDate}>
+                    {zahlung.datum.split("T")[0]}
+                  </Text>
                 </TouchableOpacity>
                 <TextInput
                   style={styles.zahlungAmount}
