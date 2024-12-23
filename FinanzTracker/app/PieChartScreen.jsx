@@ -112,13 +112,13 @@ const ExpenseOverviewScreen = () => {
         {/* Upper Box with the Pie Chart */}
         <View style={styles.upperBox}>
           <Text style={styles.title}>Übersicht</Text>
-          <PieChart
+          {series.length > 0 && (<PieChart
             widthAndHeight={widthAndHeight}
             series={series}
             sliceColor={sliceColor}
             coverRadius={0.45}
             coverFill={"#232323"}
-          />
+          />)}
         </View>
 
         {/* Lower Box with the Expense List */}
