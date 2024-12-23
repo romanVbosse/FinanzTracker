@@ -84,7 +84,6 @@ const ExpenseOverviewScreen = () => {
 
     useEffect(() => {
       const seriesData = currentItems.map((item) => getSumOfPayments(item, 30));
-      console.log(seriesData);
       setSeries(seriesData);
     }, [currentItems]);
 
