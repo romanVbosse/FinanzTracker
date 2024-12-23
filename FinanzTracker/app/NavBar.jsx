@@ -30,6 +30,12 @@ const NavBar = () => {
           style={styles.navBarIcon}
         />
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => handlePress("/UserEditingScreen")}>
+        <Image
+          source={require("../assets/die-einstellungen.png")}
+          style={styles.navBarIcon}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
