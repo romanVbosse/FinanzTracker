@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Image,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import styles from "./styles/styles";
@@ -22,7 +23,6 @@ import {
 import { Kategorie, Zahlung, Regularity } from "../assets/logic/BaseClass";
 import NavBar from "./NavBar";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { use } from "react";
 
 const ExpenseEditScreen = () => {
   const [tree, setTree] = useState({}); // The JSON tree structure
@@ -104,6 +104,20 @@ const ExpenseEditScreen = () => {
     // Create a copy of the tree
     const newTree = { ...tree };
 
+    //check if inputs are valid
+    if (editName === "" || editFarbe === "") {
+      alert("Please fill out all fields");
+      return;
+    }
+    if (findeElement(newTree, editName) && editName !== originalName) {
+      alert("Element already exists");
+      return;
+    }
+    if (editFarbe.length !== 7 || editFarbe[0] !== "#") {
+      alert("Invalid color");
+      return;
+    }
+
     if (item.typ === "kategorie") {
       elementBearbeiten(
         newTree,
@@ -111,6 +125,10 @@ const ExpenseEditScreen = () => {
         new Kategorie(editName, editFarbe)
       );
     } else if (item.typ === "zahlung") {
+      if (editBetrag === -1 || editTime === -1 || editRythmus === -1) {
+        alert("Please fill out all fields");
+        return;
+      }
       elementBearbeiten(
         newTree,
         originalName,
@@ -315,6 +333,7 @@ const ExpenseEditScreen = () => {
             style={[styles.itemText, { color: item.farbe }]}
             value={editBetrag}
             onChangeText={setEditBetrag}
+            keyboardType="numeric"
           />
           <TextInput
             style={[styles.itemText, { color: item.farbe }]}
@@ -384,21 +403,38 @@ const ExpenseEditScreen = () => {
         style={styles.item}
         onPress={() => handleKategoriePress(item)}
       >
-        <Text style={[styles.itemText, { color: item.farbe }]}>
-          {item.name}
-        </Text>
-        <TouchableOpacity
-          style={styles.editButton}
-          onPress={() => handleEditPress(item)}
-        >
-          <Text style={styles.editButtonText}>Edit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.editButton}
-          onPress={() => handleDeletePress(item)}
-        >
-          <Text style={styles.editButtonText}>Delete</Text>
-        </TouchableOpacity>
+        <View style={styles.itemContent}>
+          <View>
+            <Text style={[styles.itemText, { color: item.farbe }]}>
+              {item.name}
+            </Text>
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => handleEditPress(item)}
+            >
+              <Text style={styles.editButtonText}>Edit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => handleDeletePress(item)}
+            >
+              <Text style={styles.editButtonText}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            {item.typ === "kategorie" ? (
+              <Image
+                source={require("../assets/ordner.png")}
+                style={styles.navBarIcon}
+              />
+            ) : (
+              <Image
+                source={require("../assets/euro.png")}
+                style={styles.navBarIcon}
+              />
+            )}
+          </View>
+        </View>
       </TouchableOpacity>
     );
 

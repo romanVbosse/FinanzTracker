@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   // Allgemeine Container-Stile
   container: {
     flex: 1,
+    paddingBottom: 60,
     backgroundColor: "#232323",
     alignItems: "center",
     justifyContent: "center",
@@ -87,6 +88,12 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 10,
   },
+  itemContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+  },
   itemText: {
     fontSize: 18,
     marginBottom: 5,
@@ -117,6 +124,8 @@ const styles = StyleSheet.create({
     color: "#888",
   },
   upperBox: {
+    width: "100%",
+    flexShrink: 0,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
@@ -124,8 +133,11 @@ const styles = StyleSheet.create({
   },
   lowerBox: {
     flex: 1,
-    paddingBottom: 60,
-    justifyContent: "flex-start",
+    width: "100%",
+    justifyContent: "center",
+    marginBottom: 10,
+    alignSelf: "center",
+    overflow: "scroll",
   },
   title: {
     fontSize: 18,

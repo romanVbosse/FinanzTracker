@@ -57,25 +57,29 @@ const ExpenseOverviewScreen = () => {
         style={styles.item}
         onPress={() => handleKategoriePress(item)}
       >
-        <View>
-          <Text style={[styles.itemText, { color: item.farbe }]}>
-            {item.name}
-          </Text>
-          <Text style={styles.itemText}>
-            {getSumOfPayments(item, 30) + "€/Monat"}
-          </Text>
+        <View style={styles.itemContent}>
+          <View>
+            <Text style={[styles.itemText, { color: item.farbe }]}>
+              {item.name}
+            </Text>
+            <Text style={styles.itemText}>
+              {getSumOfPayments(item, 30) + "€/Monat"}
+            </Text>
+          </View>
+          <View>
+            {item.typ === "kategorie" ? (
+              <Image
+                source={require("../assets/ordner.png")}
+                style={styles.navBarIcon}
+              />
+            ) : (
+              <Image
+                source={require("../assets/euro.png")}
+                style={styles.navBarIcon}
+              />
+            )}
+          </View>
         </View>
-        {item.typ === "kategorie" ? (
-          <Image
-            source={require("../assets/ordner.png")}
-            style={styles.navBarIcon}
-          />
-        ) : (
-          <Image
-            source={require("../assets/euro.png")}
-            style={styles.navBarIcon}
-          />
-        )}
       </TouchableOpacity>
     );
   };

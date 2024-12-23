@@ -261,7 +261,7 @@ const YearRecapScreen = () => {
     }, [currentItemsChecked, startDate, endDate, intervall]);
 
     return (
-      <View style={styles.container}>
+      <View>
         <View style={styles.upperBox}>
           <Text style={styles.title}>Yearly Recap</Text>
           <StackedBarChart
@@ -341,7 +341,7 @@ const YearRecapScreen = () => {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView>
         <BarChartScreen
           currentItems={currentItems}
           path={path}
