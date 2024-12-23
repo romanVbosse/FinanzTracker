@@ -1,11 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import LoginScreen from './LoginScreen.jsx';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const navigation = useRouter();
+
+  useEffect(() => {
+    const clearAsyncStorage = async () => {
+      try {
+        await AsyncStorage.clear();
+        console.log('AsyncStorage cleared');
+      } catch (error) {
+        console.error('Error clearing AsyncStorage:', error);
+      }
+    };
+
+    clearAsyncStorage();
+  }, []);
+
   return (
     <View style={styles.container}>
       <LoginScreen />

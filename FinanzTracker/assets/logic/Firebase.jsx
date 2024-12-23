@@ -1,17 +1,17 @@
 import { FIRESTORE_DB } from "../../FirebaseConfig";
-import { collection, addDoc, getDoc, updateDoc, deleteDoc, doc, query, where, getFirestore } from 'firebase/firestore';
+import { collection, setDoc, getDoc, deleteDoc, doc } from 'firebase/firestore';
 
 // Save data
 const saveDataFB = async (collectionName, docId, value) => {
     try {
         const docRef = doc(FIRESTORE_DB, collectionName, docId); // Referenz auf ein Dokument
-        await addDoc(docRef, value); // Daten speichern
+        await setDoc(docRef, value); // Daten speichern
         console.log(`Data saved to collection '${collectionName}', document '${docId}'.`);
     } catch (error) {
         console.error("Error saving data:", error);
     }
 };
-  
+
 // Retrieve data
 const getDataFB = async (collectionName, docId) => {
     try {
@@ -28,7 +28,7 @@ const getDataFB = async (collectionName, docId) => {
         return null;
     }
 };
-  
+
 // Delete data
 const deleteDataFB = async (collectionName, docId) => {
     try {
@@ -39,5 +39,5 @@ const deleteDataFB = async (collectionName, docId) => {
         console.error("Error deleting data:", error);
     }
 };
-  
+
 export { deleteDataFB, saveDataFB, getDataFB };
