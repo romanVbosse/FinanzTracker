@@ -263,7 +263,7 @@ const YearRecapScreen = () => {
     return (
       <View>
         <View style={styles.upperBox}>
-          <Text style={styles.title}>Yearly Recap</Text>
+          <Text style={styles.title}>Kostenentwicklung</Text>
           <StackedBarChart
             data={{
               labels: labels,

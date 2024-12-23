@@ -258,11 +258,13 @@ const ExpenseEditScreen = () => {
           style={styles.item}
           onPress={() => handleKategoriePress(item)}
         >
+          <Text>Name</Text>
           <TextInput
             style={[styles.textInput, { color: item.farbe }]}
             value={editName}
             onChangeText={setEditName}
           />
+          <Text>Farbe</Text>
           <TextInput
             style={[styles.textInput, { color: item.farbe }]}
             value={editFarbe}
@@ -270,6 +272,7 @@ const ExpenseEditScreen = () => {
           />
           {isAdding ? (
             <>
+              <Text>Name des neuen Objekts</Text>
               <TextInput
                 style={styles.textInput}
                 value={addString}
@@ -291,7 +294,7 @@ const ExpenseEditScreen = () => {
               handleAddKatPress();
             }}
           >
-            <Text style={styles.editButtonText}>Add Kategorie</Text>
+            <Text style={styles.editButtonText}>Neue Kategorie</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.editButton}
@@ -299,7 +302,7 @@ const ExpenseEditScreen = () => {
               handleAddZahPress();
             }}
           >
-            <Text style={styles.editButtonText}>Add Zahlung</Text>
+            <Text style={styles.editButtonText}>Neue Zahlung</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.editButton}
@@ -307,13 +310,13 @@ const ExpenseEditScreen = () => {
               await saveEditPress(item);
             }}
           >
-            <Text style={styles.editButtonText}>Save</Text>
+            <Text style={styles.editButtonText}>Speichern</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.editButton}
             onPress={() => resetEditPress()}
           >
-            <Text style={styles.editButtonText}>Cancel</Text>
+            <Text style={styles.editButtonText}>Abbrechen</Text>
           </TouchableOpacity>
         </TouchableOpacity>
       ) : (
@@ -321,28 +324,33 @@ const ExpenseEditScreen = () => {
           style={styles.item}
           onPress={() => handleKategoriePress(item)}
         >
+          <Text>Name</Text>
           <TextInput
             style={[styles.textInput, { color: item.farbe }]}
             value={editName}
             onChangeText={setEditName}
           />
+          <Text>Farbe</Text>
           <TextInput
             style={[styles.textInput, { color: item.farbe }]}
             value={editFarbe}
             onChangeText={setEditFarbe}
           />
+          <Text>Betrag</Text>
           <TextInput
             style={[styles.textInput, { color: item.farbe }]}
             value={editBetrag}
             onChangeText={setEditBetrag}
             keyboardType="numeric"
           />
+          <Text>Rythmus</Text>
           <TextInput
             style={[styles.textInput, { color: item.farbe }]}
             value={editRythmus.toString()}
             onChangeText={setEditRythmus}
             keyboardType="numeric"
           />
+          <Text>Zeitintervall</Text>
           <Picker
             selectedValue={editTime}
             style={styles.picker}
@@ -354,21 +362,24 @@ const ExpenseEditScreen = () => {
             <Picker.Item label="Yearly" value={365} />
           </Picker>
           <View style={styles.erfolgteZahlungContainer}>
+            <Text>Erfolgte Zahlungen:</Text>
             {editZahlungen.map((zahlung, index) => (
               <View key={index} style={styles.zahlungItem}>
+                <Text>Datum</Text>
                 <TouchableOpacity onPress={() => handleDatePress(index)}>
                   <Text style={styles.zahlungDate}>
                     {zahlung.datum.split("T")[0]}
                   </Text>
                 </TouchableOpacity>
+                <Text>Menge</Text>
                 <TextInput
-                  style={styles.zahlungAmount}
+                  style={styles.textInput}
                   value={editZahlungen[index].menge.toString()}
                   onChangeText={(text) => handleAmountChange(text, index)}
                   keyboardType="numeric"
                 />
                 <TouchableOpacity onPress={() => handleDeleteZahlung(index)}>
-                  <Text style={styles.deleteButton}>Delete</Text>
+                  <Text style={styles.deleteButton}>Löschen</Text>
                 </TouchableOpacity>
               </View>
             ))}
@@ -381,7 +392,7 @@ const ExpenseEditScreen = () => {
               />
             )}
             <TouchableOpacity onPress={() => handleAddZahlung(item)}>
-              <Text style={styles.addButton}>Add Zahlung</Text>
+              <Text style={styles.addButton}>Erfolgte Zahlung hinzufügen</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity
@@ -390,13 +401,13 @@ const ExpenseEditScreen = () => {
               await saveEditPress(item);
             }}
           >
-            <Text style={styles.editButtonText}>Save</Text>
+            <Text style={styles.editButtonText}>Speichern</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.editButton}
             onPress={() => resetEditPress()}
           >
-            <Text style={styles.editButtonText}>Cancel</Text>
+            <Text style={styles.editButtonText}>Abbrechen</Text>
           </TouchableOpacity>
         </TouchableOpacity>
       )
@@ -414,13 +425,13 @@ const ExpenseEditScreen = () => {
               style={styles.editButton}
               onPress={() => handleEditPress(item)}
             >
-              <Text style={styles.editButtonText}>Edit</Text>
+              <Text style={styles.editButtonText}>Anpassen</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.editButton}
               onPress={() => handleDeletePress(item)}
             >
-              <Text style={styles.editButtonText}>Delete</Text>
+              <Text style={styles.editButtonText}>Löschen</Text>
             </TouchableOpacity>
           </View>
           <View>
@@ -450,7 +461,7 @@ const ExpenseEditScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Edit Expenses</Text>
+      <Text style={styles.title}>Zahlungen Anpassen</Text>
       {path.length > 0 && (
         <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
           <Text style={styles.backButtonText}>Back</Text>

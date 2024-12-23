@@ -19,13 +19,22 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/sparschwein.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.niklasdoesprogramming.FinanzTracker"
     },
     "web": {
       "favicon": "./assets/sparschwein.png"
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "8f475ef7-54aa-4041-8571-519f7bc2cb41"
+      }
+    }
   }
 }

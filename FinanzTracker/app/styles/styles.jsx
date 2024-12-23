@@ -120,6 +120,20 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 16,
   },
+  deleteButton: {
+    marginBottom: 10,
+    padding: 5,
+    backgroundColor: "#FF0000",
+    borderRadius: 8,
+    alignSelf: "flex-start",
+  },
+  addButton: {
+    marginBottom: 10,
+    padding: 5,
+    backgroundColor: "#28a745",
+    borderRadius: 8,
+    alignSelf: "flex-start",
+  },
   editButton: {
     marginBottom: 10,
     padding: 10,
