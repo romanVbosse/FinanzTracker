@@ -1,12 +1,11 @@
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { Zahlung } from "./BaseClass";
 
 /**
- * Fügt einer Kategorie eine neue Kategorie oder Zahlung hinzu.
- * @param {Object} baum - Die JSON-Baumstruktur.
- * @param {string} kategorieName - Der Name der Zielkategorie, der das Element hinzugefügt werden soll.
- * @param {Object} neuesElement - Das neue Element (Kategorie oder Zahlung).
- * @returns {boolean} - Gibt zurück, ob das Element erfolgreich hinzugefügt wurde.
+ * Adds a new category or payment to a category.
+ * @param {Object} baum - The JSON tree structure.
+ * @param {string} kategorieName - The name of the target category where the element should be added.
+ * @param {Object} neuesElement - The new element (category or payment).
+ * @returns {boolean} - Returns whether the element was successfully added.
  */
 function elementHinzufuegen(baum, kategorieName, neuesElement) {
   if (baum.benutzername) {
@@ -18,18 +17,18 @@ function elementHinzufuegen(baum, kategorieName, neuesElement) {
     }
   }
 
-  // Prüfen, ob der aktuelle Knoten die Zielkategorie ist
+  // Check if current node is the target category
   if (baum.typ === "kategorie" && baum.name === kategorieName) {
-    // Neues Element zur Liste der Kinder hinzufügen
+    // Add new element to the list of children
     if (!baum.kinder) {
       baum.kinder = [];
     }
     baum.kinder.push(neuesElement);
-    console.log("Element hinzugefügt" + neuesElement);
-    return true; // Element wurde erfolgreich hinzugefügt
+    console.log("Element added" + neuesElement);
+    return true; // Element was successfully added
   }
 
-  // Rekursiv alle Kinder durchlaufen, wenn vorhanden
+  // Recursively traverse all children if present
   if (baum.kinder && Array.isArray(baum.kinder)) {
     for (let kind of baum.kinder) {
       const hinzugefuegt = elementHinzufuegen(
@@ -38,14 +37,14 @@ function elementHinzufuegen(baum, kategorieName, neuesElement) {
         neuesElement
       );
       if (hinzugefuegt) {
-        return true; // Element wurde in einem Kind erfolgreich hinzugefügt
+        return true; // Element was successfully added in a child
       }
     }
   }
-  return false; // Zielkategorie nicht gefunden
+  return false; // Target category not found
 }
 
-// helper function that searches through the tree to see if the element exists
+// Helper function that searches through the tree to see if the element exists
 function findeElement(baum, name) {
   if (baum.benutzername) {
     for (let ausgabe of baum.ausgaben) {
@@ -86,10 +85,10 @@ function findeElement(baum, name) {
 }
 
 /**
- * Löscht eine Kategorie oder Zahlung aus dem JSON-Baum.
- * @param {Object} baum - Die JSON-Baumstruktur.
- * @param {string} name - Der Name der Kategorie oder Zahlung, die gelöscht werden soll.
- * @returns {boolean} - Gibt zurück, ob das Element erfolgreich gelöscht wurde.
+ * Deletes a category or payment from the JSON tree.
+ * @param {Object} baum - The JSON tree structure.
+ * @param {string} name - The name of the category or payment to be deleted.
+ * @returns {boolean} - Returns whether the element was successfully deleted.
  */
 function elementLoeschen(baum, name) {
   if (baum.benutzername) {
@@ -101,7 +100,7 @@ function elementLoeschen(baum, name) {
     }
   }
   if (!baum.kinder || !Array.isArray(baum.kinder)) {
-    return false; // Kein Kinder-Array vorhanden, nichts zu löschen
+    return false; // No children array present, nothing to delete
   }
 
   // Prevent deletion of root-level "Einnahme" or "Ausgabe" categories
@@ -110,16 +109,16 @@ function elementLoeschen(baum, name) {
     return false; // Root-level categories cannot be deleted
   }
 
-  // Suchen und löschen im kinder-Array des aktuellen Knotens
+  // Search and delete in the children array of the current node
   const initialLength = baum.kinder.length;
   baum.kinder = baum.kinder.filter((kind) => kind.name !== name);
 
-  // Wenn das Element gefunden und gelöscht wurde
+  // If the element was found and deleted
   if (baum.kinder.length < initialLength) {
     return true;
   }
 
-  // Rekursiv in die Kinder-Knoten gehen
+  // Recursively traverse child nodes
   for (let kind of baum.kinder) {
     if (kind.typ === "kategorie") {
       const geloescht = elementLoeschen(kind, name);
@@ -129,15 +128,15 @@ function elementLoeschen(baum, name) {
     }
   }
 
-  return false; // Ziel-Element wurde nicht gefunden
+  return false; // Target element was not found
 }
 
 /**
- * Ersetzt eine Kategorie oder Zahlung aus dem JSON-Baum.
- * @param {Object} baum - Die JSON-Baumstruktur.
- * @param {string} name - Der Name der Kategorie oder Zahlung, die ersetzt werden soll.
- * @param {Object} neuesElement - Das neue Objekt
- * @returns {boolean} - Gibt zurück, ob das Element erfolgreich gelöscht wurde.
+ * Replaces a category or payment in the JSON tree.
+ * @param {Object} baum - The JSON tree structure.
+ * @param {string} name - The name of the category or payment to be replaced.
+ * @param {Object} neuesElement - The new object
+ * @returns {boolean} - Returns whether the element was successfully replaced.
  */
 function elementBearbeiten(baum, name, neuesElement) {
   if (baum.benutzername) {

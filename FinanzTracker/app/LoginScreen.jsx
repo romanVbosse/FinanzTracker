@@ -31,14 +31,14 @@ const LoginScreen = () => {
       console.log("Logged in user:", user);
       Alert.alert("Erfolg", "Sie sind eingeloggt!");
 
-      // Hole die Daten aus Firebase
+      // Get user data from Firebase
       const userData = await getDataFB(email, email);
       if (userData) {
-        // Speichere die Daten in AsyncStorage
+        // Save the data in AsyncStorage
         await saveData(email, userData);
       }
 
-      navigation.push("/PieChartScreen"); // Navigiere zur nächsten Seite
+      navigation.push("/PieChartScreen"); // Navigate to next screen
     } catch (error) {
       console.error("Error logging in:", error.message);
       Alert.alert("Fehler", error.message);
@@ -52,7 +52,7 @@ const LoginScreen = () => {
       await createNutzer(email);
       console.log("Registered user:", user);
       Alert.alert("Erfolg", "Ihr Account wurde erstellt!");
-      navigation.push("/PieChartScreen"); // Navigiere zur nächsten Seite
+      navigation.push("/PieChartScreen"); // Navigate to next screen
     } catch (error) {
       console.error("Error signing up:", error.message);
       Alert.alert("Fehler", error.message);
@@ -99,7 +99,12 @@ const LoginScreen = () => {
           </View>
 
           {/* Registration Text */}
-          <TouchableOpacity onPress={() => {setLoggingIn(false);console.log("Logging in: ", loggingIn)}}>
+          <TouchableOpacity
+            onPress={() => {
+              setLoggingIn(false);
+              console.log("Logging in: ", loggingIn);
+            }}
+          >
             <Text style={styles.registerText}>Neuen Account erstellen!</Text>
           </TouchableOpacity>
         </View>

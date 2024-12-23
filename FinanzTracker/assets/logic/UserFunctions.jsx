@@ -49,7 +49,6 @@ async function createTestNutzer() {
                 menge: "1000",
                 regelmäßigkeit: { time: 30, anzahl: 1 },
                 erfolgteZahlungen: [],
-                kinder: [],
               },
             ],
           },
@@ -60,10 +59,9 @@ async function createTestNutzer() {
             menge: "50",
             regelmäßigkeit: { time: 7, anzahl: 1 },
             erfolgteZahlungen: [
-              { datum: new Date(2021, 5, 1), menge: "200" },
-              { datum: new Date(2021, 5, 8), menge: "50" },
+              { datum: new Date(2024, 11, 23), menge: "200" },
+              { datum: new Date(2024, 11, 10), menge: "50" },
             ],
-            kinder: [],
           },
           {
             name: "Essen",
@@ -71,14 +69,33 @@ async function createTestNutzer() {
             typ: "zahlung",
             menge: "10",
             regelmäßigkeit: { time: "1", anzahl: 1 },
-            erfolgteZahlungen: [],
-            kinder: [],
+            erfolgteZahlungen: [
+              { datum: new Date(2024, 11, 7), menge: "400" },
+              { datum: new Date(2024, 11, 10), menge: "50" },
+            ],
           },
         ],
       },
     ],
     einnahmen: [
-      { name: "Einnahmen", farbe: "#00FF00", typ: "kategorie", kinder: [] },
+      {
+        name: "Einnahmen",
+        farbe: "#00FF00",
+        typ: "kategorie",
+        kinder: [
+          {
+            name: "Job",
+            farbe: "#000000",
+            typ: "zahlung",
+            menge: "2000",
+            regelmäßigkeit: { time: 30, anzahl: 1 },
+            erfolgteZahlungen: [
+              { datum: new Date(2024, 10, 23), menge: "2000" },
+              { datum: new Date(2024, 11, 23), menge: "2100" },
+            ],
+          },
+        ],
+      },
     ],
   };
   await saveData("TestNutzer", newNutzer);

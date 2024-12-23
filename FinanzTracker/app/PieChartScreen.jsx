@@ -121,7 +121,6 @@ const ExpenseOverviewScreen = () => {
     }, [currentItems]);
 
     useEffect(() => {
-      // Simulate loading data
       setIsLoading(false);
     }, []);
 

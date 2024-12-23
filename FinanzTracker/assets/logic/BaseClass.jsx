@@ -9,7 +9,7 @@ class BaseClass {
 class Kategorie extends BaseClass {
   constructor(name, farbe) {
     super(name, farbe, "kategorie");
-    this.kinder = []; // Hier entweder Wieder Kategorie oder Zahlung rein
+    this.kinder = [];
   }
 }
 
@@ -17,8 +17,8 @@ class Zahlung extends BaseClass {
   constructor(name, farbe, menge, regelmäßigkeit, erfolgteZahlungen) {
     super(name, farbe, "zahlung");
     this.menge = menge;
-    this.regelmäßigkeit = regelmäßigkeit; // Regelmäßigkeit als Regularity-Objekt
-    this.erfolgteZahlungen = erfolgteZahlungen; // Liste von Beträgen
+    this.regelmäßigkeit = regelmäßigkeit;
+    this.erfolgteZahlungen = erfolgteZahlungen;
   }
 }
 
@@ -31,8 +31,8 @@ class erfolgteZahlung {
 
 class Regularity {
   constructor(time, anzahl) {
-    this.time = time; // Tag Woche Monat Jahr als Tagesanzahl
-    this.anzahl = anzahl; // n
+    this.time = time;
+    this.anzahl = anzahl;
   }
 }
 

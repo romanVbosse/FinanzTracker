@@ -83,6 +83,7 @@ const ExpenseEditScreen = () => {
     }
   };
 
+  // set variables to the currently edited item
   const handleEditPress = (item) => {
     setIsEditing(currentItems.indexOf(item));
     setOriginalName(item.name);
@@ -93,7 +94,7 @@ const ExpenseEditScreen = () => {
       setEditTime(item.regelmäßigkeit.time);
       console.log("rhytmus", item.regelmäßigkeit.anzahl);
       setEditRythmus(item.regelmäßigkeit.anzahl);
-      console.log("rjytmus", editRythmus);
+      console.log("rhytmus", editRythmus);
       setEditZahlungen(item.erfolgteZahlungen);
     }
   };
@@ -120,6 +121,7 @@ const ExpenseEditScreen = () => {
       return;
     }
 
+    // write new item values to the tree
     if (item.typ === "kategorie") {
       elementBearbeiten(
         newTree,
@@ -155,6 +157,7 @@ const ExpenseEditScreen = () => {
     setIsEditing(-1);
   };
 
+  // delete element from tree
   const handleDeletePress = async (item) => {
     const newTree = { ...tree };
     elementLoeschen(newTree, item.name);
@@ -164,6 +167,7 @@ const ExpenseEditScreen = () => {
     setIsEditing(-1);
   };
 
+  // set variables to enable adding a new element
   const handleAddKatPress = () => {
     setIsAdding(true);
     setIsKategorie(true);
@@ -176,6 +180,7 @@ const ExpenseEditScreen = () => {
     setAddString("Neue Zahlung");
   };
 
+  // open date picker and set the date of the selected payment
   const handleDatePress = (index) => {
     // If index is an object, extract the number
     if (typeof index === "object" && index !== null) {
@@ -197,6 +202,7 @@ const ExpenseEditScreen = () => {
     setEditZahlungen(newZahlungen);
   };
 
+  // add a new payment to the list of payments
   const handleAddZahlung = (item) => {
     let time = new Date().getTime();
     const newZahlungen = [
@@ -220,9 +226,11 @@ const ExpenseEditScreen = () => {
     }
   };
 
+  // add a new element to the tree
   const handleAddElement = async (item) => {
     const newTree = { ...tree };
     console.log("Adding element:", addString);
+    // check if name is already in use
     if (findeElement(newTree, addString) || addString === "") {
       alert("Element already exists");
       return;
@@ -253,6 +261,7 @@ const ExpenseEditScreen = () => {
   // renders items in the list
   const renderItem = ({ item }) =>
     currentItems.indexOf(item) === isEditing ? (
+      // editing view of the element with inputs
       item.typ === "kategorie" ? (
         <TouchableOpacity
           style={styles.item}
@@ -284,7 +293,7 @@ const ExpenseEditScreen = () => {
                   await handleAddElement(item);
                 }}
               >
-                <Text>Add</Text>
+                <Text style={styles.editButtonText}>Hinzufügen</Text>
               </TouchableOpacity>
             </>
           ) : null}
@@ -412,6 +421,7 @@ const ExpenseEditScreen = () => {
         </TouchableOpacity>
       )
     ) : (
+      // normal view of the element
       <TouchableOpacity
         style={styles.item}
         onPress={() => handleKategoriePress(item)}

@@ -32,7 +32,7 @@ const YearRecapScreen = () => {
     new Date(time).toISOString().split("T")[0]
   );
   console.log("endDate initialized as: " + endDate);
-  // startDate soll 6 wochen vor endDate sein
+  // startDate should be 6 weeks before endDate
   let startTime = time - 6 * 7 * 24 * 60 * 60 * 1000;
   const [startDate, setStartDate] = useState(
     new Date(startTime).toISOString().split("T")[0]
@@ -88,6 +88,7 @@ const YearRecapScreen = () => {
 
   const renderItem = ({ item }) => {
     return (
+      // all elements (kategorien and zahlungen)
       <TouchableOpacity
         style={styles.item}
         onPress={() => handleKategoriePress(item)}
@@ -120,6 +121,7 @@ const YearRecapScreen = () => {
     setEditTime(type);
   };
 
+  // change start or end date and verify if the new date is valid
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
     const regularStartDate = new Date(startDate);
@@ -165,13 +167,12 @@ const YearRecapScreen = () => {
           );
           return;
         }
-        console.log("############## haben umsetzen erreicht");
         setEndDate(new Date(selectedDate).toISOString().split("T")[0]);
-        console.log("############## neues enddatum: " + endDate);
       }
     }
   };
 
+  // change intervall in which the data is displayed
   const handleIntervallChange = (value) => {
     let maximalStartDate = new Date(endDate) - 6 * value * 24 * 60 * 60 * 1000;
     if (new Date(startDate) < new Date(maximalStartDate)) {
@@ -195,6 +196,7 @@ const YearRecapScreen = () => {
     console.log(currentItems + " " + typeof currentItems);
 
     useEffect(() => {
+      // calculate the data for the bar chart
       const newLabels = [];
       const newData = [];
       const newLegend = [];
@@ -220,8 +222,8 @@ const YearRecapScreen = () => {
       const intervallsAmount = Math.ceil(
         timeFrame / (intervall * 24 * 60 * 60 * 1000)
       );
-      console.log("intervallsAmount: " + intervallsAmount);
       for (let i = 0; i < intervallsAmount; i++) {
+        // for each intervall calculate the sum of payments for each chosen item
         const newDate = new Date(startDate);
         newDate.setDate(newDate.getDate() + i * intervall);
         const formattedNewDate = newDate.toISOString().split("T")[0];
@@ -239,7 +241,7 @@ const YearRecapScreen = () => {
               formattedNewDate[1] +
               formattedNewDate[2] +
               formattedNewDate[3];
-        newLabels.push(newLabel); //hier zeitintervall
+        newLabels.push(newLabel);
 
         const payments = [];
         for (const item of chosenItems) {
