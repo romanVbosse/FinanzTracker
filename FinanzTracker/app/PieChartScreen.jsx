@@ -51,6 +51,7 @@ const ExpenseOverviewScreen = () => {
 
   // renders items in the list
   const renderItem = ({ item }) => {
+    console.log("Item:", item);
     return (
       <TouchableOpacity
         style={styles.item}
@@ -84,12 +85,20 @@ const ExpenseOverviewScreen = () => {
 
     useEffect(() => {
       const seriesData = currentItems.map((item) => getSumOfPayments(item, 30));
-      setSeries(seriesData);
-    }, [currentItems]);
+      const colors = currentItems.map((item) => item.farbe);
 
-    useEffect(() => {
-      const sliceColorData = currentItems.map((item) => item.farbe);
-      setSliceColor(sliceColorData);
+      // Check if the seriesData is valid
+      const totalSum = seriesData.reduce((acc, value) => acc + value, 0);
+      if (totalSum > 0) {
+        setSeries(seriesData);
+        setSliceColor(colors);
+      } else {
+        // Handle the case where the series data is invalid
+        setSeries([1]); // Set a default value to avoid the error
+        setSliceColor(["#cccccc"]); // Set a default color
+      }
+
+      setIsLoading(false);
     }, [currentItems]);
 
     useEffect(() => {
@@ -112,13 +121,15 @@ const ExpenseOverviewScreen = () => {
         {/* Upper Box with the Pie Chart */}
         <View style={styles.upperBox}>
           <Text style={styles.title}>Übersicht</Text>
-          {series.length > 0 && (<PieChart
-            widthAndHeight={widthAndHeight}
-            series={series}
-            sliceColor={sliceColor}
-            coverRadius={0.45}
-            coverFill={"#232323"}
-          />)}
+          {series.length > 0 && (
+            <PieChart
+              widthAndHeight={widthAndHeight}
+              series={series}
+              sliceColor={sliceColor}
+              coverRadius={0.45}
+              coverFill={"#232323"}
+            />
+          )}
         </View>
 
         {/* Lower Box with the Expense List */}

@@ -155,7 +155,8 @@ const ExpenseEditScreen = () => {
       "Neue Zahlung",
       "#000000",
       "10000",
-      new Regularity(30, 1)
+      new Regularity(30, 1),
+      []
     );
     elementHinzufuegen(newTree, item.name, newZahlung);
     const loggedInUser = await getLoggedInNutzer();
