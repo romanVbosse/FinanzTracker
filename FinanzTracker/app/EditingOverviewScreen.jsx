@@ -17,10 +17,12 @@ import {
   elementBearbeiten,
   elementHinzufuegen,
   elementLoeschen,
+  findeElement,
 } from "../assets/logic/BaseClassFunctions";
 import { Kategorie, Zahlung, Regularity } from "../assets/logic/BaseClass";
 import NavBar from "./NavBar";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { use } from "react";
 
 const ExpenseEditScreen = () => {
   const [tree, setTree] = useState({}); // The JSON tree structure
@@ -28,6 +30,9 @@ const ExpenseEditScreen = () => {
   const [path, setPath] = useState([]); // Track navigation path
   const [isLoading, setIsLoading] = useState(true); // Loading state
   const [isEditing, setIsEditing] = useState(-1); // Editing state
+  const [isAdding, setIsAdding] = useState(false); // Adding state
+  const [addString, setAddString] = useState(""); // String to add
+  const [isKategorie, setIsKategorie] = useState(true); // Type of element to add
   const [showDatePicker, setShowDatePicker] = useState(false); // Date picker state
 
   // States for categories of Kategorie and Zahlung for editing
@@ -139,30 +144,16 @@ const ExpenseEditScreen = () => {
     setIsEditing(-1);
   };
 
-  const handleAddKatPress = async (item) => {
-    const newTree = { ...tree };
-    const newKategorie = new Kategorie("Neue Kategorie", "#000000");
-    elementHinzufuegen(newTree, item.name, newKategorie);
-    const loggedInUser = await getLoggedInNutzer();
-    await updateNutzer(loggedInUser, newTree);
-    await loadInitialTree();
-    setIsEditing(-1);
+  const handleAddKatPress = () => {
+    setIsAdding(true);
+    setIsKategorie(true);
+    setAddString("Neue Kategorie");
   };
 
-  const handleAddZahPress = async (item) => {
-    const newTree = { ...tree };
-    const newZahlung = new Zahlung(
-      "Neue Zahlung",
-      "#000000",
-      "10000",
-      new Regularity(30, 1),
-      []
-    );
-    elementHinzufuegen(newTree, item.name, newZahlung);
-    const loggedInUser = await getLoggedInNutzer();
-    await updateNutzer(loggedInUser, newTree);
-    await loadInitialTree();
-    setIsEditing(-1);
+  const handleAddZahPress = () => {
+    setIsAdding(true);
+    setIsKategorie(false);
+    setAddString("Neue Zahlung");
   };
 
   const handleDatePress = (index) => {
@@ -209,6 +200,36 @@ const ExpenseEditScreen = () => {
     }
   };
 
+  const handleAddElement = async (item) => {
+    const newTree = { ...tree };
+    console.log("Adding element:", addString);
+    if (findeElement(newTree, addString)) {
+      alert("Element already exists");
+      return;
+    }
+    if (isKategorie) {
+      const newKategorie = new Kategorie(addString, "#000000");
+      console.log(JSON.stringify(newKategorie));
+      elementHinzufuegen(newTree, item.name, newKategorie);
+    } else {
+      const newZahlung = new Zahlung(
+        addString,
+        "#000000",
+        "0",
+        new Regularity(30, 1),
+        []
+      );
+      elementHinzufuegen(newTree, item.name, newZahlung);
+    }
+    console.log(JSON.stringify(newTree));
+    const loggedInUser = await getLoggedInNutzer();
+    await updateNutzer(loggedInUser, newTree);
+    await loadInitialTree();
+    setIsEditing(-1);
+    setIsAdding(false);
+    setAddString("");
+  };
+
   // renders items in the list
   const renderItem = ({ item }) =>
     currentItems.indexOf(item) === isEditing ? (
@@ -227,18 +248,35 @@ const ExpenseEditScreen = () => {
             value={editFarbe}
             onChangeText={setEditFarbe}
           />
+          {isAdding ? (
+            <>
+              <TextInput
+                style={styles.itemText}
+                value={addString}
+                onChangeText={setAddString}
+              />
+              <TouchableOpacity
+                style={styles.editButton}
+                onPress={async () => {
+                  await handleAddElement(item);
+                }}
+              >
+                <Text>Add</Text>
+              </TouchableOpacity>
+            </>
+          ) : null}
           <TouchableOpacity
             style={styles.editButton}
-            onPress={async () => {
-              await handleAddKatPress(item);
+            onPress={() => {
+              handleAddKatPress();
             }}
           >
             <Text style={styles.editButtonText}>Add Kategorie</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.editButton}
-            onPress={async () => {
-              await handleAddZahPress(item);
+            onPress={() => {
+              handleAddZahPress();
             }}
           >
             <Text style={styles.editButtonText}>Add Zahlung</Text>

@@ -9,7 +9,6 @@ import { Zahlung } from "./BaseClass";
  * @returns {boolean} - Gibt zurück, ob das Element erfolgreich hinzugefügt wurde.
  */
 function elementHinzufuegen(baum, kategorieName, neuesElement) {
-  //TODO: Check ob schon existiert
   if (baum.benutzername) {
     for (let ausgabe of baum.ausgaben) {
       elementHinzufuegen(ausgabe, kategorieName, neuesElement);
@@ -26,6 +25,7 @@ function elementHinzufuegen(baum, kategorieName, neuesElement) {
       baum.kinder = [];
     }
     baum.kinder.push(neuesElement);
+    console.log("Element hinzugefügt" + neuesElement);
     return true; // Element wurde erfolgreich hinzugefügt
   }
 
@@ -43,6 +43,46 @@ function elementHinzufuegen(baum, kategorieName, neuesElement) {
     }
   }
   return false; // Zielkategorie nicht gefunden
+}
+
+// helper function that searches through the tree to see if the element exists
+function findeElement(baum, name) {
+  if (baum.benutzername) {
+    for (let ausgabe of baum.ausgaben) {
+      const element = findeElement(ausgabe, name);
+      if (element) {
+        return element;
+      }
+    }
+    for (let einnahme of baum.einnahmen) {
+      const element = findeElement(einnahme, name);
+      if (element) {
+        return element;
+      }
+    }
+  }
+  if (!baum.kinder || !Array.isArray(baum.kinder)) {
+    return null; // No children to search
+  }
+
+  // Search in the children array of the current node
+  for (let kind of baum.kinder) {
+    if (kind.name === name) {
+      return kind;
+    }
+  }
+
+  // Recursively search in children
+  for (let kind of baum.kinder) {
+    if (kind.typ === "kategorie") {
+      const element = findeElement(kind, name);
+      if (element) {
+        return element;
+      }
+    }
+  }
+
+  return null; // Element not found
 }
 
 /**
@@ -66,6 +106,7 @@ function elementLoeschen(baum, name) {
 
   // Prevent deletion of root-level "Einnahme" or "Ausgabe" categories
   if ((baum.name === "Einnahme" || baum.name === "Ausgabe") && !baum.isRoot) {
+    alert("Root-level categories cannot be deleted");
     return false; // Root-level categories cannot be deleted
   }
 
@@ -260,4 +301,5 @@ export {
   getSumOfPayments,
   getZahlungenSummeInTimeFrame,
   invertColor,
+  findeElement,
 };
